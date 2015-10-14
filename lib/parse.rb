@@ -16,7 +16,7 @@ class Parse
   end
 
   def card_num
-    line_arr[2]
+    line_arr[2].to_i
   end
 
   def limit
@@ -42,11 +42,11 @@ File.open(file).each_line do |line|
 
   when 'add'
     raise ArgumentError.new('Invalid inputs') unless parser.command && parser.name && parser.limit
-    card_number = parser.card_num
-    validator = LuhnValidator.new(card_number)
+    card_num = parser.card_num
+    validator = LuhnValidator.new(card_num)
 
     if validator.luhn_check
-      card = Card.new(name: parser.name, card_num: parser.card_num.to_i, limit: parser.limit)
+      card = Card.new(name: parser.name, card_num: parser.card_num, limit: parser.limit)
       customer_accounts[card.name] = card
     else
       # if it fails luhn, card_num is not assigned (nil)

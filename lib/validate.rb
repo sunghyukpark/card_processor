@@ -3,8 +3,8 @@ class LuhnValidator
   attr_reader :card_num_str,:card_num_arr, :sum_odd, :sum_even
   MAX_LENGTH = 19
 
-  def initialize(card_num_str)
-    @card_num_str = card_num_str
+  def initialize(card_num)
+    @card_num_str = card_num.to_s
     @card_num_arr = convert_num_to_array(@card_num_str)
     @sum_odd = sum_odd_arr(@card_num_arr)
     @sum_even = sum_even_arr(@card_num_arr)
