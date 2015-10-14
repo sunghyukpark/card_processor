@@ -1,34 +1,71 @@
 require_relative 'card'
 
+class Parse
+  attr_reader :line_arr
+
+  def initialize(line)
+    @line_arr = line.split(' ')
+  end
+
+  def command
+    line_arr[0]
+  end
+
+  def name
+    line_arr[1].capitalize
+  end
+
+  def card_num
+    line_arr[2]
+  end
+
+  def limit
+    line_arr[-1].delete('$').to_i
+  end
+
+  def amount
+    line_arr[-1].delete('$').to_i
+  end
+
+end
+
 puts "Enter file name"
 file = gets.chomp
-customer_accounts = []
+customer_accounts = {}
 
 File.open(file).each_line do |line|
   line.strip!
-  line = line.downcase!.split(' ')
-  command = line[0]
-  name = line[1]
+  line.downcase!
+  parser = Parse.new(line)
 
-  case command
+  case parser.command
+
   when 'add'
-    raise ArgumentError.new('Invalid inputs') unless command && name && line[3]
-    validator = LuhnValidator.new(line[2])
-    if validator.luhn_check
-      card = Card.new(name: name.capitalize!,
-                      card_num: line[2],
-                      limit: line[3][1..-1].to_i)
-      customer_accounts << card
-    else
-      card = Card.new(name: name.capitalize!)
-      customer_accounts << card
-    end
-    p customer_accounts
-  when 'charge'
-  when 'credit'
+    raise ArgumentError.new('Invalid inputs') unless parser.command && parser.name && parser.limit
+    card_number = parser.card_num
+    validator = LuhnValidator.new(card_number)
 
+    if validator.luhn_check
+      card = Card.new(name: parser.name, card_num: parser.card_num.to_i, limit: parser.limit)
+      customer_accounts[card.name] = card
+    else
+      # if it fails luhn, card_num is not assigned (nil)
+      card = Card.new(name: parser.name)
+      customer_accounts[card.name] = card
+    end
+
+  when 'charge'
+    card = customer_accounts[parser.name]
+    card.charge(parser.amount) if card.card_num
+
+  when 'credit'
+    card = customer_accounts[parser.name]
+    card.credit(parser.amount) if card.card_num
   end
+
 end
+
+p customer_accounts
 
 
 # case line[0]
