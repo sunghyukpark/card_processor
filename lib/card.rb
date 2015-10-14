@@ -1,7 +1,7 @@
 require_relative 'validate'
 
 class Card
-  attr_reader :name, :limit, :card_num
+  attr_reader :name, :limit, :card_num, :balance
 
   def initialize(args={})
     @name = args[:name]

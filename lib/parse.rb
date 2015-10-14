@@ -1,5 +1,20 @@
 require_relative 'card'
 
+def display(accounts)
+  sorted_accounts = Hash[accounts.sort]
+  puts '**********'
+  puts
+  sorted_accounts.each_value do |card|
+    if card.card_num
+      puts "#{card.name}: $#{card.balance}"
+    else
+      puts "#{card.name}: error"
+    end
+  end
+  puts
+  puts '**********'
+end
+
 class Parse
   attr_reader :line_arr
 
@@ -62,12 +77,7 @@ File.open(file).each_line do |line|
     card = customer_accounts[parser.name]
     card.credit(parser.amount) if card.card_num
   end
-
 end
 
-p customer_accounts
-
-
-# case line[0]
-# when 'ADD'
+display(customer_accounts)
 
