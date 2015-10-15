@@ -1,6 +1,6 @@
 require_relative 'card'
 
-class Parse
+class Parser
   attr_reader :line_arr
 
   def initialize(line)

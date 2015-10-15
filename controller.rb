@@ -22,7 +22,7 @@ customer_accounts = {}
 File.open(file).each_line do |line|
   line.strip!
   line.downcase!
-  parser = Parse.new(line)
+  parser = Parser.new(line)
 
   case parser.command
 

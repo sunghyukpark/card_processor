@@ -1,9 +1,9 @@
 require 'rspec'
 require_relative '../model/parse'
 
-describe Parse do
+describe Parser do
 
-  let(:parse) {Parse.new('Add tom 1234 $1000')}
+  let(:parse) {Parser.new('Add tom 1234 $1000')}
 
   context 'initialize' do
     it 'creates an array of input' do
