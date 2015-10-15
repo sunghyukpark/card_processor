@@ -1,6 +1,5 @@
 require 'rspec'
-require_relative '../lib/validate'
-
+require_relative '../model/validate'
 
 describe LuhnValidator do
 
